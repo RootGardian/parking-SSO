@@ -12,7 +12,6 @@ export const utilisateurSchema = z.object({
   matricule: z
     .string()
     .min(1, "Le matricule est obligatoire")
-    .regex(/^[0-9A-Za-z]+$/, "Le matricule doit être valide")
     .trim(),
   role: z.enum(["admin", "supervision", "agent", "personnel"]),
   fonction: z.string().optional(),

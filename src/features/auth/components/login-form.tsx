@@ -85,9 +85,6 @@ export function LoginForm() {
         <h3 className="text-base font-semibold text-foreground">
           Validation SSO BCRG HUB...
         </h3>
-        <p className="text-xs text-muted-foreground">
-          Vérification de votre compte Active Directory en cours.
-        </p>
       </div>
     );
   }
@@ -149,7 +146,7 @@ export function LoginForm() {
           <span>Connexion unique via BCRG HUB (SSO)</span>
         </Button>
         <p className="text-[11px] text-center text-muted-foreground">
-          Accès direct sécurisé fédéré avec l&apos;Active Directory de la Banque
+          Accès direct sécurisé avec l&apos;Active Directory de la Banque
           Centrale.
         </p>
       </div>
