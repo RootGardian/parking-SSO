@@ -23,6 +23,26 @@ Toute la documentation détaillée par domaine est organisée dans le dossier [`
 
 ---
 
+## 🔐 Intégration Single Sign-On (SSO) BCRG HUB
+
+L'application Frontend est interconnectée avec le **BCRG HUB** pour une connexion transparente sans réauthentification (Single Sign-On fédéré avec l'Active Directory) :
+
+### 🔄 Flux d'authentification SSO
+1. L'agent clique sur la carte Parking depuis le portail BCRG HUB.
+2. Le HUB redirige le navigateur vers `/login?sso_token=<JETON_JWT>`.
+3. Le composant `login-form.tsx` intercepte automatiquement le jeton et appelle l'API Backend `POST /api/auth/sso-login`.
+4. Le profil utilisateur normalisé est stocké dans le store Zustand (`useAuthStore`) et dans les cookies de session (`bcrg_session`, `bcrg_user_role`).
+5. Une redirection immédiate (`window.location.replace()`) achemine l'utilisateur vers son espace dédié (`/admin`, `/agent`, ou `/personnel`).
+
+### 🛠️ Composants ajoutés & modifiés
+- **`src/app/sso/route.ts`** : Route Handler Next.js capable de recevoir et traiter le jeton en GET/POST avec génération des cookies de session.
+- **`src/app/page.tsx`** : Transmission transparente de `?sso_token=...` vers la mire de connexion sans perte de query string.
+- **`src/features/auth/components/login-form.tsx`** : Détection réactive du `sso_token`, loader visuel, et bouton *"Connexion unique via BCRG HUB (SSO)"*.
+- **`src/features/auth/services/auth.service.ts`** : Méthode `loginWithSso` pour validation auprès du Backend.
+- **`src/features/admin/utilisateurs/schemas/utilisateurs-schema.ts`** : Validation Zod adaptée aux comptes Active Directory (acceptation des identifiants avec points et tirets, ex: `mamadoub.barry`).
+
+---
+
 ## 🛠️ Stack Technique & Écosystème
 
 * **Core Framework** : [Next.js 16 (App Router)](https://nextjs.org/) & [React 19](https://react.dev/)
