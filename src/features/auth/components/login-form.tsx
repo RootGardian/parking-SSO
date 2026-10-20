@@ -55,9 +55,13 @@ export function LoginForm() {
         .loginWithSso(ssoToken)
         .then((user) => {
           const role = (user.role || "").toLowerCase();
-          if (role === "agent") router.replace("/agent");
-          else if (role === "personnel") router.replace("/personnel");
-          else router.replace("/admin");
+          const target =
+            role === "agent"
+              ? "/agent"
+              : role === "personnel"
+                ? "/personnel"
+                : "/admin";
+          window.location.replace(target);
         })
         .catch((err: any) => {
           setSsoError(err.message || "Échec de validation du jeton SSO.");
